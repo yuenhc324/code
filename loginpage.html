@@ -1,0 +1,97 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css "href="CSS/login.css"/>
+</head>
+
+<script>
+$(document).ready(function(){   
+	// handle button clicks         
+  $('#buttonID').click(function() {
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data){
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+  
+  
+	$("#buttonlogin").click(function(){
+		alert("Logging in now, please wait.");
+		var tempName, tempPassword;
+		tempName = document.forms["login"]["Name"].value;
+		tempPassword = document.forms["login"]["Password"].value;
+		if(tempName == "" || tempPassword == "")
+		{
+			alert("Please fill in all the blanks.");
+		}
+		else
+		{
+			$.ajax({
+				url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Login", 
+				type: 'POST',
+				data: $('#formID').serialize(),
+				success: function(result){
+					alert("Login successful, you will be redirect to the index page.");
+           window.location.href = "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/index";
+				}, error: function (xhr, textStatus, errorThrown) {
+					alert("Login failed, please check you username and password.");
+					console.log(textStatus);
+      	}
+			});
+		}
+	});
+});
+</script>
+
+
+
+
+<body>
+    <div class="layer">
+  <div class="title">
+    <h1>Drug Taking</h1></div>
+  
+      
+      
+ <div class="style1">
+        
+  <div id="signupform">
+		<br>
+    <h3>Login</h3>
+  	<form id="formID" name="login">
+    	Username: <input type="text" name="Name"/>
+      <br>
+			Password: <input type="password" name="Password">
+		</form>
+  	
+    <button id="buttonlogin" class="button button1">    	Login  	</button>
+	</div></div></div>
+  
+     </div>
+   <div class="style2">
+   <p>Background photo by Gatis Gribusts (Flickr)</p>
+   </div>
+       </div>
+  
+  <ul>
+    <li> <a class="active" href="/index">Home </a> </li>
+    <li> <a href="/loginpage">Log in</a> </li>
+    <li> <a href="/Signuppage">Register</a></li>
+  </ul>
+
+</body>
+
+</html>

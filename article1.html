@@ -1,0 +1,158 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <link rel="stylesheet" type="text/css "href="CSS/login.css"/>
+</head>
+
+<script>
+$(document).ready(function()
+{   
+	// handle button clicks         
+  $('#buttonID').click(function() 
+	{
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax(
+		{
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data)
+    {
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+	
+	$("#add").click(function()
+	{
+		$.ajax(
+		{
+			url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/addfavourlist", 
+			type: 'POST',
+			data: $('#formID').serialize(),
+			success: function(result)
+			{
+				alert("Successfully added");
+				//alert(result);
+			},error: function (xhr, textStatus, errorThrown) 
+			{
+				//alert(textStatus);
+				alert("Add failed");
+				console.log(textStatus);
+      	}
+		});
+	});
+	
+  $("#remove").click(function()
+	{
+		$.ajax(
+		{
+			url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/removefavourlist", 
+			type: 'POST',
+			data: $('#formID').serialize(),
+			success: function(result)
+			{
+				alert("Successfully removed");
+				//alert(result);
+			},error: function (xhr, textStatus, errorThrown) 
+			{
+				//alert(textStatus);
+				alert("Remove failed");
+				console.log(textStatus);
+      	}
+		});
+	});
+});
+	
+	
+</script>
+
+
+
+
+<body>
+  <div class="layer">
+    
+  
+   <div class="title"><h1>Drug Taking</h1></div>
+
+   <div class="style3">
+  <h3>Reminder when taking drugs and medicines</h3>
+  <p>Some food cannot be taken together with drug, they may have bad reaction with the drug and therefore predispose one to develop side effects.</p>
+  <p><h3>
+  Alchol
+  </h3><br>
+  It will increase or decrease the effect of medicine </p>
+  
+  <p><h3>
+  Caffeine-containing food
+  </h3><br>
+    	Drinks include tea, soft drinks, coffe and other many beverages all contain caffeine. <br>
+  Caffeine can stimulate the central nervous system and increase blood pressure as well as attributing some diuretic effect as well.<br>
+  Caffeine is going to be broken down in the liver at the end.<br>
+  Many drug or medicine can increase the caffeine level in the blood, damaging the liver.</p>
+ 
+ <p><h3>
+  Calcium-containing food
+  </h3><br>
+   	The calcium in the food may decrease the absorption of drugs. Typical example is the antibiotics like tetracycline, ciprofloxacin, levofloxacin may be less effective when taken at the same time with calcium rich food. Drugs with low bioavailability such as bisphosphates i.e. alendronate, risedroante, ibandronate is especially problematic with these food.<br>
+</p>
+  
+   <p><h3>
+  Other food that cannot taken together with drug and medicine
+  </h3><br>
+   http://www.drugoffice.gov.hk/eps/do/en/consumer/news_informations/knowledge_on_medicines/food_drug_interaction.html
+</p>
+<p>
+  Keyword:Food
+</p>
+
+	<br>
+  <form id="formID" name="fav">
+			<input type="hidden" name="keyword" value="Food"/>
+		</form>
+  	<button id="add">
+    	Add favourite
+  	</button>
+  <button id="remove">
+    Remove favourite
+  </button>
+
+</div></div>
+
+      <!--sub panel-->
+       <div class="style4">
+         <h3>Drug and Food</h3>
+            <img src="drug01.jpg" alt="DrugFood">
+         <div class="style2">
+   <p>image from healthywomen.org</p>
+   </div>
+       </div>
+         
+    <div class="style2">
+   <p>Background photo by Gatis Gribusts (Flickr)</p>
+   </div>
+
+
+
+
+      <!-- Navigation -->
+  <ul>
+     <li> <a class="active" href="/logout">Log out</a></li>
+    <li><a href="/index">Home</a></li>
+  	<li><a href="/readfavourlist">Favourite</a></li>
+    
+
+  </ul>
+
+</body>
+
+</html>

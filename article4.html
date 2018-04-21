@@ -1,0 +1,141 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <link rel="stylesheet" type="text/css "href="CSS/login.css"/>
+</head>
+
+<script>
+$(document).ready(function()
+{   
+	// handle button clicks         
+  $('#buttonID').click(function() 
+	{
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax(
+		{
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data)
+    {
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+	
+		$("#add").click(function()
+	{
+		$.ajax(
+		{
+			url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/addfavourlist", 
+			type: 'POST',
+			data: $('#formID').serialize(),
+			success: function(result)
+			{
+				alert("Successfully added");
+				//alert(result);
+			},error: function (xhr, textStatus, errorThrown) 
+			{
+				//alert(textStatus);
+				alert("Add failed");
+				console.log(textStatus);
+      	}
+		});
+	});
+	
+  $("#remove").click(function()
+	{
+		$.ajax(
+		{
+			url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/removefavourlist", 
+			type: 'POST',
+			data: $('#formID').serialize(),
+			success: function(result)
+			{
+				alert("Successfully removed");
+				//alert(result);
+			},error: function (xhr, textStatus, errorThrown) 
+			{
+				//alert(textStatus);
+				alert("Remove failed");
+				console.log(textStatus);
+      	}
+		});
+	});
+});
+	
+</script>
+
+
+
+
+<body>
+  
+  
+  <div class="layer">
+    
+  
+   <div class="title"><h1>Drug Taking</h1></div>
+
+   <div class="style3">
+     
+  <h3>Commonly Abused Drugs Charts</h3>
+  <p>The list is on this page:<br>
+    https://www.drugabuse.gov/drugs-abuse/commonly-abused-drugs-charts <br>
+    <br> 
+  </p>
+  
+  
+ <p>After reading this page and understand how the drugs will damage our health, we should say no to drugs abuse.
+  </p>
+
+  <p>
+    Keyword:Abuse
+  </p>
+	<br>
+  <form id="formID" name="fav">
+			<input type="hidden" name="keyword" value="Abuse"/>
+		</form>
+  	<button id="add">
+    	Add favourite
+  	</button>
+  <button id="remove">
+    Remove favourite
+  </button>
+     
+    </div></div>
+  
+        <!--API panel-->
+        <div class="style4">
+                
+         <h3>No Drug Abuse</h3>
+            <img src="drug04.png" alt="no">
+         <div class="style2">
+   <p>image from iran-daily.com</p>
+   </div>
+       </div>
+  
+     <div class="style2">
+   <p>Background photo by Gatis Gribusts (Flickr)</p>
+   </div>
+  
+        <!-- Navigation -->
+  <ul>
+     <li> <a class="active" href="/logout">Log out</a></li>
+    <li><a href="/index">Home</a></li>
+  	<li><a href="/readfavourlist">Favourite</a></li>
+
+  </ul>
+  
+  
+</body>
+
+</html>

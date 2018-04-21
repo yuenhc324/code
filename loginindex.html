@@ -1,0 +1,164 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css "href="CSS/login.css"/>
+  
+  
+  <style type="text/css">
+      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBprozizvS18gK7cBPnfmeTcySrQnk4LJ8">
+    </script>
+    <script type="text/javascript">
+      function initialize() {
+        var mapOptions = {
+          center: { lat: -34.397, lng: 150.644},
+          zoom: 8
+        };
+        var map = new google.maps.Map(
+            document.getElementById('map-canvas'),
+            mapOptions);
+      }
+      google.maps.event.addDomListener(
+          window, 'load', initialize);
+    </script>
+  
+</head>
+
+<script>
+$(document).ready(function(){   
+	// handle button clicks         
+  $('#buttonID').click(function() {
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data){
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+  
+  $("#buttonsearch").click(function(){
+		alert("Loading, please wait.");
+		var tempSearch;
+		tempSearch = document.forms["search"]["searchkey"].value;
+		if(tempSearch == ""){
+			alert("Please fill in the blank.");
+		}else{
+		  $.ajax({
+				url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Search", 
+				type: 'POST',
+				data: $('#formID').serialize(),
+				success: function(resultReturn){ 
+					alert("Search success");
+          alert(resultReturn);
+					alert(JSON.stringify(resultReturn));
+			    var _stringObj = JSON.stringify(resultReturn);
+			    var stringObj = JSON.parse(resultReturn);
+			    for(i = 0; i < stringObj.length; i++){
+					   var num = i + 1;
+					   document.getElementsByClassName("tabnum")[i].innerHTML = num;
+					   document.getElementsByClassName("tabname")[i].innerHTML = stringObj[i].title;
+				     document.getElementsByClassName("tablink")[i].innerHTML = stringObj[i].command;
+				    }
+					}, error: function (xhr, textStatus, errorThrown) {
+						alert("Search failed");
+						console.log(textStatus);
+            alert(xhr.responseText);
+      		}
+				});
+			}
+   });
+});
+</script>
+
+
+
+
+<body>  
+  	<br>
+  
+  
+     <div class="layer">
+       
+       
+         <!-- Page Content -->
+     <div class="title"><h1>Drug Taking</h1>
+       
+       	<form id="formID" name="search">
+			Keyword searching: <input type="text" name="searchkey"/>
+		</form>
+  	<button id="buttonsearch">
+    	search
+  	</button>
+       </div>
+       
+         
+   <!--Main acticle-->
+   <div class="style3">
+     
+     <h3>Link to articles.</h3>
+      <a href="/food">Reminder when taking drugs and medicines</a> <br>
+     <a href="/abuse">Commonly Abused Drugs Charts</a><br>
+     <a href="/manage">Management of medicines and drugs</a><br>
+     <a href="/use">General Knowledge on the Use of Medicines</a><br>
+     
+     
+     <h3>Search result will show here.</h3><br>
+      <!--for displaying search result use, please modify by yourself-->
+<table id="mytable">
+      <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+          </tr>
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+           <td class = "tabdel"></td>
+          </tr>
+  </table>
+     
+        
+        </div>
+       
+   <div class="style2">
+   <p>Background photo by Gatis Gribusts (Flickr)</p>
+   </div>
+       
+       
+       <!--API panel-->
+       <div class="style4">
+               <div id="map-canvas"></div>
+         
+ 
+              
+   </div>
+   
+  </div>
+
+      <!-- Navigation -->
+  <ul>
+     <li> <a class="active" href="/logout">Log out</a></li>
+  	<li><a href="/readfavourlist">Favourite</a></li>
+
+  </ul>
+
+   
+
+
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <link rel="stylesheet" type="text/css "href="CSS/login.css"/>
+</head>
+
+<script>
+$(document).ready(function()
+{   
+	// handle button clicks         
+  $('#buttonID').click(function() 
+	{
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax(
+		{
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data)
+    {
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+	
+	$("#add").click(function()
+	{
+		$.ajax(
+		{
+			url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/addfavourlist", 
+			type: 'POST',
+			data: $('#formID').serialize(),
+			success: function(result)
+			{
+				alert("Successfully added");
+				//alert(result);
+			},error: function (xhr, textStatus, errorThrown) 
+			{
+				//alert(textStatus);
+				alert("Add failed");
+				console.log(textStatus);
+      	}
+		});
+	});
+	
+  $("#remove").click(function()
+	{
+		$.ajax(
+		{
+			url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/removefavourlist", 
+			type: 'POST',
+			data: $('#formID').serialize(),
+			success: function(result)
+			{
+				alert("Successfully removed");
+				//alert(result);
+			},error: function (xhr, textStatus, errorThrown) 
+			{
+				//alert(textStatus);
+				alert("Remove failed");
+				console.log(textStatus);
+      	}
+		});
+	});
+});
+	
+</script>
+
+
+
+
+<body>
+  <div class="layer">
+    
+  
+   <div class="title"><h1>Drug Taking</h1></div>
+
+   <div class="style3">
+     
+  <h3>General Knowledge on the Use of Medicines</h3>
+  <p>Proper use of drugs and medicines<br>
+    Medicine can affect our body in both positive way and negative way, taking too many drug and medicine will harm our health.<br>
+    Patients should take medicines prescribed by their doctor according to the dosing schedule, and make no arbitrary increase or decrease on the frequency and dosage of medication.<br>
+    Overdose may lead to poisoning or even death, while underdose cannot relieve the medical conditions.<br> 
+  </p>
+  
+  
+ <p>For more advice on Medication<br>
+    Please go to <br>
+http://www.drugoffice.gov.hk/eps/do/en/consumer/news_informations/knowledge_on_medicines/general_use_on_medicine.html<br>
+   And have a check. <br> 
+  </p>
+  <p>
+    Keyword:Use
+  </p>
+	<br>
+  <form id="formID" name="fav">
+			<input type="hidden" name="keyword" value="Use"/>
+		</form>
+  	<button id="add">
+    	Add favourite
+  	</button>
+  <button id="remove">
+    Remove favourite
+  </button>
+     
+    </div></div>
+  
+        <!--API panel-->
+              <div class="style4">
+                
+         <h3>Drugs</h3>
+            <img src="drug02.png" alt="DrugUse">
+         <div class="style2">
+   <p>image from wateronline.com</p>
+   </div>
+       </div>
+  
+  
+     <div class="style2">
+   <p>Background photo by Gatis Gribusts (Flickr)</p>
+   </div>
+  
+        <!-- Navigation -->
+  <ul>
+     <li> <a class="active" href="/logout">Log out</a></li>
+    <li><a href="/index">Home</a></li>
+  	<li><a href="/readfavourlist">Favourite</a></li>
+
+  </ul>
+  
+</body>
+
+</html>

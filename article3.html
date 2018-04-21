@@ -1,0 +1,141 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <link rel="stylesheet" type="text/css "href="CSS/login.css"/>
+</head>
+
+<script>
+$(document).ready(function()
+{   
+	// handle button clicks         
+  $('#buttonID').click(function() 
+	{
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax(
+		{
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data)
+    {
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+	
+	$("#add").click(function()
+	{
+		$.ajax(
+		{
+			url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/addfavourlist", 
+			type: 'POST',
+			data: $('#formID').serialize(),
+			success: function(result)
+			{
+				alert("Successfully added");
+				//alert(result);
+			},error: function (xhr, textStatus, errorThrown) 
+			{
+				//alert(textStatus);
+				alert("Add failed");
+				console.log(textStatus);
+      	}
+		});
+	});
+	
+  $("#remove").click(function()
+	{
+		$.ajax(
+		{
+			url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/removefavourlist", 
+			type: 'POST',
+			data: $('#formID').serialize(),
+			success: function(result)
+			{
+				alert("Successfully removed");
+				//alert(result);
+			},error: function (xhr, textStatus, errorThrown) 
+			{
+				//alert(textStatus);
+				alert("Remove failed");
+				console.log(textStatus);
+      	}
+		});
+	});
+});
+	
+</script>
+
+
+
+
+<body>
+    <div class="layer">
+    
+  
+   <div class="title"><h1>Drug Taking</h1></div>
+
+   <div class="style3">
+  <h3>Management of medicines and drugs</h3>
+  <p>Proper use of drugs and medicines<br>
+    Effective from 1 January 1995, medicines prescribed by a doctor for a patient should have the name of the medicine and other relevant information shown clearly on the medicine bag or bottle.<br>
+    This can let the doctors and nurses manage the drugs and medicines efficiently, medical accidents may therefore decrease. <br>
+    <br> 
+  </p>
+  
+  
+ <p>Classification and Control of Drugs<br>
+    According to the laws of Hong Kong, medicines are classified into three main categories according to the severity of the diseases they intend for and the magnitude of the side effects they cause. <br>
+Details are shown here: <br>
+   http://www.drugoffice.gov.hk/eps/do/en/consumer/news_informations/knowledge_on_medicines/general_use_on_medicine.html<br> 
+  </p>
+
+  <p>
+    Keyword:Management
+  </p>
+	<br>
+  <form id="formID" name="fav">
+			<input type="hidden" name="keyword" value="Management"/>
+		</form>
+  	<button id="add">
+    	Add favourite
+  	</button>
+  <button id="remove">
+    Remove favourite
+  </button>
+     
+      </div></div>
+  
+        <!--API panel-->
+       <div class="style4">
+         <h3>Medicine management</h3>
+        <img src="drug03.jpg" alt="Medicine management">
+         <div class="style2">
+   <p>image from virtuosomedmag.com</p>
+       </div></div>
+  
+         
+     <div class="style2">
+   <p>Background photo by Gatis Gribusts (Flickr)</p>
+   </div>
+  
+        <!-- Navigation -->
+  <ul>
+     <li> <a class="active" href="/logout">Log out</a></li>
+    <li><a href="/index">Home</a></li>
+  	<li><a href="/readfavourlist">Favourite</a></li>
+
+  </ul>
+  
+  
+</body>
+
+</html>

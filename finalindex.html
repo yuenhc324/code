@@ -1,0 +1,133 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css "href="CSS/index.css"/>
+  
+</head>
+
+<script>
+$(document).ready(function(){   
+	// handle button clicks         
+  $('#buttonID').click(function() {
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://abc-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data){
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+	
+	$("#btnSearch").click(function(){
+		alert("callnow");
+		var tempSearch;
+		tempSearch = document.forms["search"]["searchkey"].value;
+		if(tempSearch == "")
+		{
+				alert("Please fill the field.");
+		}
+		else
+		{
+				$.ajax(
+				{
+					url: "http://abc-nekokitsune4242917356.codeanyapp.com:4242/Search", 
+					type: 'POST',
+					data: $('#formID').serialize(),
+					success: function(resultReturn){ 
+						alert("search success");
+            alert(resultReturn);
+						alert(JSON.stringify(resultReturn));
+			      var _stringObj = JSON.stringify(resultReturn);
+			      var stringObj = JSON.parse(resultReturn);
+			      for(i = 0; i < stringObj.length; i++)
+            {
+					    var num = i + 1;
+					    document.getElementsByClassName("tabnum")[i].innerHTML = num;
+					    document.getElementsByClassName("tabname")[i].innerHTML = stringObj[i].texttitle;
+				      document.getElementsByClassName("tablink")[i].innerHTML = stringObj[i].command;
+				     }
+					},error: function (xhr, textStatus, errorThrown) {
+						alert("search failed");
+						console.log(textStatus);
+            alert(xhr.responseText);
+      		}
+				});
+			}
+	});
+	
+});
+	
+	
+</script>
+
+
+
+
+<body>
+  
+ <div class="layer">
+    
+      
+      <!-- Page Content -->
+     <div class="title"><h1>Drug Taking</h1></div>
+   <div class="style1">
+     
+      <p>Understand drug use and addiction
+     
+     Drug is a medicine or other substance which has a physiological effect when ingested or otherwise introduced into the body. <br>
+     So Drug Taking includes the topic "taking medicine" and "drug abuse", you can find out more here. <br>
+        
+     </p>
+    <br>
+     
+     
+   
+ <!--
+  <form id="formID" name="search">
+			search: <input type="text" name="searchkey"/>
+		</form>
+  	<button id="btnSearch">
+    	search
+  	</button> 
+ -->
+   
+    </div>
+   <div class="style2">
+   <p>Background photo by Gatis Gribusts (Flickr)</p>
+   </div>
+       </div>
+
+      <!-- Navigation -->
+  <ul>
+  <li> <a class="active" href="/index">Home </a> </li>
+	<li> <a href="/loginpage">Log in</a> </li>
+  <li> <a href="/Signuppage">Register</a> </li>
+  </ul>
+  
+  <!--for displaying search result use, please modify by yourself-->
+  <table id="mytable">
+      <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+          </tr>
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tabname"></td>
+           <td class = "tablink"></td>
+           <td class = "tabdel"></td>
+          </tr>
+  </table>
+</body>
+
+</html>

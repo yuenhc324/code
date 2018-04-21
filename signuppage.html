@@ -1,0 +1,98 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css "href="CSS/login.css"/>
+</head>
+
+<script>
+$(document).ready(function(){   
+	// handle button clicks         
+  $('#buttonID').click(function() {
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data){
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+  
+  
+	$("#buttonme").click(function(){
+		alert("Loading now, please wait.");
+		var tempEmail, tempName, tempPassword;
+		tempEmail = document.forms["signin"]["Email"].value;
+		tempName = document.forms["signin"]["Name"].value;
+		tempPassword = document.forms["signin"]["Password"].value;
+		if(tempEmail == ""|| tempName == "" || tempPassword == "")
+		{
+			alert("Please fill in all the blanks.");
+		}
+		else
+		{
+			$.ajax({
+				url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup", 
+				type: 'POST',
+				data: $('#formID').serialize(),
+				success: function(result){
+					alert("Registration success");
+					alert("Thanks for creating an account, your email is: " + result.Email + " and username is: " + result.Name + ". Enjoy!");
+					window.location.href = "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/index";
+					}, error: function (xhr, textStatus, errorThrown) {
+						alert("Registration failed, please try again with other username");
+						console.log(textStatus);
+      		}
+				});
+			}
+	});
+});
+</script>
+
+
+
+
+<body>
+  
+  <body>
+  <div class="layer">
+  <div class="title">
+    <h1>Drug Taking</h1>
+  </div>
+      
+   <div class="style1">
+  <div id="signupform">
+		<br>
+      <h3>Register</h3>
+  	<form id="formID" name="signin">
+			E-mail: <input type="text" name="Email"/><br>
+    	Username: <input type="text" name="Name"/><br>
+			Password: <input type="password" name="Password">
+      
+      
+		</form>
+    <button id="buttonme" class="button button1">    	Register  	</button>
+	</div></div>	
+  
+       <div class="style2">
+   <p>Background photo by Gatis Gribusts (Flickr)</p>
+   </div>
+  
+  <ul>
+    <li> <a class="active" href="/index">Home </a> </li>
+    <li> <a href="/loginpage">Log in</a> </li>
+    <li> <a href="/Signuppage">Register</a></li>
+  </ul>
+
+</body>
+
+</html>

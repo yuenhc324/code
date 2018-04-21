@@ -1,0 +1,100 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css "href="CSS/login.css"/>
+</head>
+<body onload="checkFavourList()">
+  
+    	<br>
+  <div class = "layer">
+  <table>
+    <tr>
+          <td>No.</td>
+           <td>title</td>
+          </tr>
+  <tr>
+          <td class = "tabnum"></td>
+           <td class = "tablink"></td>
+          </tr>
+          <tr>
+          <td class = "tabnum"></td>
+           <td class = "tablink"></td>
+          </tr>
+           <tr>
+          <td class = "tabnum"></td>
+           <td class = "tablink"></td>
+          </tr>
+  </table>
+    
+    </div>
+<script>
+$(document).ready(function()
+{   
+	// handle button clicks         
+  $('#buttonID').click(function() 
+	{
+		// make an ajax call
+		alert($('#formID').serialize());
+    $.ajax(
+		{
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/Signup",
+            success: handleButtonResponse,
+        });
+    });
+
+    function handleButtonResponse(data)
+    {
+      alert(data);
+      // parse the json string
+      var jsonObject = JSON.parse(data);
+      $('#reponseID').append( jsonObject.message );
+    }
+});
+  
+ function checkFavourList()
+ {
+			$.ajax({
+				 url: "http://ABC-nekokitsune4242917356.codeanyapp.com:4242/readfavourlist", 
+         type: 'GET',
+				 async: false,
+				// dataType: 'json',
+				// jsonpCallback: '_wrapper',
+				 success: function(data){
+					 alert(data);
+				   alert(JSON.stringify(data));
+					 var _stringObj = JSON.stringify(data);
+					 var stringObj = JSON.parse(data);
+					 if(stringObj.Msg != "Favour List is empty!")
+           {
+						 for(i = 0; i < stringObj.length; i++)
+             {
+							 //alert(stringObj[i].ArticleName + " , " + stringObj[i].html);
+               alert("user: " + stringObj[i].user + ", item: " + stringObj[i].favourite);
+							// $('.tablink').empty().append(stringObj[i].ArticleName);
+							 var num = i + 1;
+							 document.getElementsByClassName("tabnum")[i].innerHTML = num;
+							 document.getElementsByClassName("tablink")[i].innerHTML = stringObj[i].favourite;
+						 }
+					 }
+           else
+           {
+						
+					 }
+				 },
+				 error: function (xhr, textStatus, errorThrown) {
+         alert("error");
+			 	alert(xhr.responseText);
+					//alert(xhr.d);
+				},	 
+		});
+	}
+</script>
+  <a href="/index">back</a>
+  
+</body>
+
+</html>

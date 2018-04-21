@@ -1,0 +1,77 @@
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<script>
+$(document).ready(function()
+{   
+
+
+    // handle button clicks         
+    $('#buttonID').click(function() {
+
+        // make an ajax call
+      alert($('#formID').serialize());
+        $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: '_wrapper',
+            data: $('#formID').serialize(),
+            type: 'POST',
+            url: "http://port-9001.db-idm4smb32469.codeanyapp.com/Signup",
+            success: handleButtonResponse,
+            });
+    });
+
+    function handleButtonResponse(data)
+    {
+      alert(data);
+        // parse the json string
+        var jsonObject = JSON.parse(data);
+        $('#reponseID').append( jsonObject.message );
+    }
+  
+  
+  $("#buttonme").click(function(){
+    alert("callnow");
+    $.ajax(
+      
+      {
+      url: "http://port-9001.db-idm4smb32469.codeanyapp.com/Signup", 
+      type: 'POST',
+      data: $('#formID').serialize(),
+      success: function(result){
+        alert("ddd");
+      //alert(result);  
+     // $("#div1").html(result);
+          },error: function (xhr, textStatus, errorThrown) {
+alert(textStatus);
+                         console.log(textStatus);
+
+                     }
+      }
+    );
+  });
+});
+</script>
+
+
+
+
+<body>
+  
+  <form id="formID">
+    name: <input type="text" name="Name" value="apple"/>
+  </form>
+
+call html demo  <a href="/Signup">Sign up</a>
+  
+  
+  <button id="buttonme">
+    Press 
+  </button>
+
+</body>
+
+</html>
